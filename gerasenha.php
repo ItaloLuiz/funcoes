@@ -13,7 +13,7 @@ function GeraSenha($qtda,$esp = false){
 	return substr($shuffle,mt_rand(0,2),$qtda);
 }
 /*
-O segundo parametro não e obrigatorio ...
+O segundo parametro não e obrigatorio ... ...
 */
 
 echo GeraSenha(6,false);
