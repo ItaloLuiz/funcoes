@@ -1,3 +1,4 @@
+<?php
 function GeraSenha($qtda,$esp = false){
 	if($qtda <=3){
 		$qtda = 4;
