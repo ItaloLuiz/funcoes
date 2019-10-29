@@ -17,3 +17,26 @@ function NPS($total,$promo,$detra){
 }
 
 echo NPS($numero_total,$promotores,$detratores);
+
+//função para calculo o valor do NPS
+function Nps(int $promotores, int $detratores, int $neutros, int $votos){  
+  $nps = (($promotores - $detratores)/ $votos) * 100;
+  $porcento_promotores = ($promotores/$votos)  * 100;
+  $porcento_detratores = ($detratores/$votos)  * 100;
+  $porcento_neutros    = ($neutros/$votos)     * 100;
+  $dados = array(
+  	'Respostas'  => $votos, 
+  	'Detratores' => round($porcento_detratores,1) .'%',
+  	'Neutros'    => round($porcento_neutros,1) . '%',
+  	'Promotores' => round($porcento_promotores,1) . '%',
+  	'NPS'        => round($nps)
+  );
+  return $dados;
+}
+
+$promotores = 90;
+$detratores = 34;
+$neutros    = 85;
+$votos      = 209;
+
+$nps = Nps($promotores,$detratores,$neutros,$votos);
