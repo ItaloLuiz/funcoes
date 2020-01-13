@@ -1,3 +1,4 @@
+<?php
 function ProximaSegunda($data)
 {
 	$dia = date('w', strtotime($data));
