@@ -24,10 +24,10 @@ function ConectaBD($banco = 'banco')
   $usuario  = 'root';
   $senha    = '';
 
-  $con = mysqli_connect($servidor, $usuario, $senha, $banco);
+  $con = @mysqli_connect($servidor, $usuario, $senha, $banco);
 
   if (!$con) {
-    return json_encode(array('status' => 'erro ao conectar'));
+    return 0;
   } else {
     return $con;
   }
@@ -46,10 +46,10 @@ function ConectaBD($banco = 'banco')
  */
 
 function PegarHashBD(array $info, $tabela, $campo)
-{
-  $conecta = ConectaBD();
+{  
+  if(!ConectaBD()) die(json_encode(array('msg'=>'não conseguiu conectar ao banco')));
   $sql     = "SELECT $campo FROM $tabela WHERE $info[0] = '{$info[1]}' LIMIT 1";
-  $query   = mysqli_query($conecta, $sql);
+  $query   = mysqli_query(ConectaBD(), $sql);
 
   if (mysqli_num_rows($query)) {
     $res  = mysqli_fetch_array($query);
@@ -64,8 +64,8 @@ $info  = array(
   'admin'
 );
 
-$tabela = 'tbl_prestador';
-$campo  = 'chave';
+$tabela = 'tbl_usuario';
+$campo  = 'hash';
 
 // colocar esse dado como hash
 $seleciona = PegarHashBD($info, $tabela, $campo);
