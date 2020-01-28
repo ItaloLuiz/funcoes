@@ -4,7 +4,7 @@ $senha = 'senha1489';
 $cost = 10;
 
 //gerar o hash
-function GerarHash($senha, $cost)
+function GerarHash($senha, int $cost)
 {
   return  password_hash($senha, PASSWORD_BCRYPT, ["cost" => $cost]);
 }
@@ -45,7 +45,7 @@ function ConectaBD($banco = 'banco')
  );
  */
 
-function PegarHashBD(array $info, $tabela, $campo)
+function PegarHashBD(array $info, string $tabela, string $campo)
 {  
   if(!ConectaBD()) die(json_encode(array('msg'=>'não conseguiu conectar ao banco','local'=> 'Classe: PegarHashBD()')));
   $sql     = "SELECT $campo FROM $tabela WHERE $info[0] = '{$info[1]}' LIMIT 1";
@@ -64,8 +64,8 @@ $info  = array(
   'admin'
 );
 
-$tabela = 'tbl_usuario';
-$campo  = 'hash';
+$tabela = 'tbl_prestador';
+$campo  = 'chave';
 
 // colocar esse dado como hash
 $seleciona = PegarHashBD($info, $tabela, $campo);
