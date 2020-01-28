@@ -47,7 +47,7 @@ function ConectaBD($banco = 'banco')
 
 function PegarHashBD(array $info, $tabela, $campo)
 {  
-  if(!ConectaBD()) die(json_encode(array('msg'=>'não conseguiu conectar ao banco')));
+  if(!ConectaBD()) die(json_encode(array('msg'=>'não conseguiu conectar ao banco','local'=> 'Classe: PegarHashBD()')));
   $sql     = "SELECT $campo FROM $tabela WHERE $info[0] = '{$info[1]}' LIMIT 1";
   $query   = mysqli_query(ConectaBD(), $sql);
 
