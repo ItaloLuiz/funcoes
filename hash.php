@@ -69,6 +69,9 @@ $campo  = 'hash';
 
 // colocar esse dado como hash
 $seleciona = PegarHashBD($info, $tabela, $campo);
+/*
+saida ==> SELECT hash FROM tbl_usuario WHERE apelido = 'admin'
+*/
 
 print_r($seleciona);
 echo '<br>';
