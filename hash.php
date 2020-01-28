@@ -17,7 +17,7 @@ function VerificaHash($senha, $hash)
     return json_encode(array('status' => '401'));
   }
 }
-
+//conectar ao banco de dados
 function ConectaBD($banco = 'banco')
 {
   $servidor = 'localhost';
