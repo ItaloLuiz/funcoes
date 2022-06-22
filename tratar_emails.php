@@ -54,6 +54,7 @@ function normalizarEmail($email)
 
 function validarMx($servidor)
 {
+    //type pode ser: A, MX, NS, SOA, PTR, CNAME, AAAA, A6, SRV, NAPTR, TXT or ANY.
     $checar_mx = checkdnsrr($servidor, 'MX');
     if($checar_mx == false){
         $dados = array(
@@ -110,7 +111,7 @@ function similarEmails($email)
         $servidor_sugerido   = '';
         foreach($forcar_array as $dados){
             $numero_similaridade .= $dados['similaridade'].',';           
-            $servidor_sugerido   .= $dados['servidor'].',';
+            $servidor_sugerido   .= strtolower($dados['servidor']).',';
         }
 
         $numero_similaridade =  explode(',',substr($numero_similaridade,0,-1));       
