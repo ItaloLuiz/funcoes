@@ -52,7 +52,20 @@ function normalizarEmail($email)
     return $substr;
 }
 
-
+function validarMx($servidor)
+{
+    $checar_mx = checkdnsrr($servidor, 'MX');
+    if($checar_mx == false){
+        $dados = array(
+            'error_mx' => true,
+            'email_digitado' => false,
+            'email_valido' => false,
+            'email_sugerido' => false
+        );
+        echo json_encode($dados);
+        exit;
+    }
+}
 
 function similarEmails($email)
 {
@@ -62,6 +75,7 @@ function similarEmails($email)
     $email_sanatized = filter_var($email, FILTER_SANITIZE_EMAIL);
     if (!filter_var($email_sanatized, FILTER_VALIDATE_EMAIL)) {        
         $dados = array(
+            'error_mx' => false,
             'email_digitado' => $email,
             'email_valido' => false,
             'email_sugerido' => false  
@@ -71,7 +85,7 @@ function similarEmails($email)
     }    
     //pegar o servidor do email
     $explode_email  = explode('@',$email);
-    $servidor_email = strtolower($explode_email[1]);
+    $servidor_email = strtolower($explode_email[1]);  
 
     $listar_servers_emails = serverLists();
     $valid = true;
@@ -84,6 +98,7 @@ function similarEmails($email)
         foreach($listar_servers_emails as $server){
             $similaridade = similar_text($servidor_email,$server);
             $forcar_array2 = array(
+                'error_mx' => false,
                 'email_informado'  => $servidor_email,
                 'servidor'         => $server,
                 'similaridade'     => $similaridade
@@ -105,7 +120,11 @@ function similarEmails($email)
         $key = array_search($provavel_servidor,$numero_similaridade);
         $servidor_sugerido[$key];
 
+        //validação extra com mx
+        validarMx($servidor_sugerido[$key]);
+
        $dados = array(
+        'error_mx' => false,
         'email_digitado' => $email,
         'email_valido' => $valid,
         'email_sugerido' => $explode_email[0].'@'.$servidor_sugerido[$key]  
@@ -114,12 +133,15 @@ function similarEmails($email)
 
     }else{
         $dados = array(
+            'error_mx' => false,
             'email_digitado' => $email,
             'email_valido' => $valid,
             'email_sugerido' => false  
            );
            return json_encode($dados); 
     }
+
+  
 
 }
 
